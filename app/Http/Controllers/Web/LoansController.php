@@ -63,15 +63,16 @@ class LoansController extends Controller {
 
     // set transaction id
     $now = Carbon::now()->format('Ymd');
-    $transaction_id = 'TRX-'.$now. str_pad($createLoan->id, 7, "0", STR_PAD_LEFT);
+    $transaction_id = 'TRX-'.$now.'LN'.$requestData['user_id']. str_pad($createLoan->id, 7, "0", STR_PAD_LEFT);
     Loans::where('id', $createLoan->id)->update(['transaction_id' => $transaction_id]);
 
     // Insert data history loan
     History::create([
-      'user_id'   => $requestData['user_id'],
-      'type_id'   => $createLoan->id,
-      'type'      => 'loan',
-      'amount'    => $requestData['loan_amount']
+      'user_id'         => $requestData['user_id'],
+      'type_id'         => $createLoan->id,
+      'type'            => 'loan',
+      'transaction_id'  => $transaction_id,
+      'amount'          => $requestData['loan_amount']
     ]);
 
     // Insert data Installment

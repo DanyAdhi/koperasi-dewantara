@@ -9,6 +9,7 @@ use App\Models\Loans;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 class InstallmentController extends Controller {
 
@@ -20,13 +21,21 @@ class InstallmentController extends Controller {
                   ->first();
     $loan_id = $getOne->loan_id;
 
-    Installment::where('id', $id)->update(['is_paid' => true]);
+    $now = Carbon::now()->format('Ymd');
+    $transaction_id = 'TRX'.$now.'IN'.$getOne->user_id. str_pad($id, 7, "0", STR_PAD_LEFT);
+
+    $dataInsert = [
+      'transaction_id'  => $transaction_id,
+      'is_paid'         => true
+    ];
+    Installment::where('id', $id)->update($dataInsert);
 
     // Insert data history installments
     History::create([
       'user_id'   => $getOne->user_id,
       'type_id'   => $id,
       'type'      => 'installment',
+      'transaction_id'  => $transaction_id,
       'amount'    => $getOne->installment_amount
     ]);
 

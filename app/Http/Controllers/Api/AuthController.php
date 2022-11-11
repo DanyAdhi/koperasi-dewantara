@@ -14,7 +14,6 @@ class AuthController extends Controller {
 
   public function login(Request $request) {
     $ctx = $this->ctx."login.";
-
     
     $validation = $this->validations($request->post(), 'login');
     if($validation->fails()){
@@ -36,7 +35,7 @@ class AuthController extends Controller {
     }
 
     if (!$generateToken) {
-      return responseJson(false, "NIP atau Password salah.", 401);
+      return responseJson(false, "NIP atau Password salah.", 400);
     }
 
     $token = ['token' => $generateToken];
@@ -69,7 +68,7 @@ class AuthController extends Controller {
       case 'login':
         $rules = [
           "nip"         => ['required'],
-          "password"      => ['required', 'string', 'min:8', 'max:50'],
+          "password"    => ['required'],
         ];
         $messages = [];
 			break;
@@ -79,7 +78,14 @@ class AuthController extends Controller {
         ];
         $messages = [];
     } 
-    return Validator::make($input, $rules, $messages);
+    return Validator::make($input, $rules, $this->messages());
+  }
+
+  private function messages() {
+    return [
+      'nip.required'      => 'NIP tidak boleh kosong.',
+      'password.required' => 'Password tidak boleh kosong.',
+    ];
   }
 
   private function convertMessages($value) {

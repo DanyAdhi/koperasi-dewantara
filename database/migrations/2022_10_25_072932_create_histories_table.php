@@ -18,6 +18,7 @@ class CreateHistoriesTable extends Migration
             $table->integer('user_id');
             $table->integer('type_id'); //id loans or installment.
             $table->string('type'); //loan or installment
+            $table->string('transaction_id');
             $table->decimal('amount', 9, 0);
             $table->timestamps();
         });

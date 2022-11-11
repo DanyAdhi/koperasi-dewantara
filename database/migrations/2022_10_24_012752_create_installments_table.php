@@ -16,6 +16,7 @@ class CreateInstallmentsTable extends Migration
         Schema::create('installments', function (Blueprint $table) {
             $table->id();
             $table->integer('loan_id');
+            $table->string('transaction_id')->nullable();
             $table->date('due_date');
             $table->boolean('is_paid')->default(false);
             $table->timestamps();

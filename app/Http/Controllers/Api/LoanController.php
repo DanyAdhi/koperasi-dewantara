@@ -39,8 +39,6 @@ class LoanController extends Controller {
       $loans = Loans::select('id', 'transaction_id', 'user_id', 'loan_amount', 'is_paid_off', 'created_at')
                     ->where('user_id', $user_id)
                     ->latest()
-                    ->skip($skip)
-                    ->take($limit)
                     ->get();
     } catch(QueryException $e) {
       logData($ctx."loans", $e->getMessage(), 500);

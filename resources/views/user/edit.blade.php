@@ -89,6 +89,7 @@
               <span class="text-danger">{{ $errors->first('status') }}</span>                  
             @enderror
           </div>
+          <a href="{{url('users')}}" class="btn btn-secondary mt-5" style="text-transform: none !important">Back</a>
           <button type="submit" class="btn btn-primary mt-5">Update</button>
         </form>
       </div>

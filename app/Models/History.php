@@ -13,6 +13,7 @@ class History extends Model
         'user_id',
         'type_id',
         'type',
+        'transaction_id',
         'amount',
     ];
 }
