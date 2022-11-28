@@ -107,10 +107,14 @@ class LoansController extends Controller {
     return view('loan.show', $data);
   }
 
-  public function perhitunganAnsuran($jumlah, $biaya_admin, $bunga, $kali_angsuran) {
+  private function perhitunganAnsuran($jumlah, $biaya_admin, $bunga, $kali_angsuran) {
+    $data = [$jumlah, $biaya_admin, $bunga, $kali_angsuran];
+   
+    // perhitungan bunga
+    $jumlah_bunga = ($jumlah / 100) * $bunga;
 
-    $angsuran = ceil(($jumlah / 100 * $bunga + $biaya_admin) / $kali_angsuran);
-    
+    $angsuran = ($jumlah + $jumlah_bunga + $biaya_admin) / $kali_angsuran;    
+
     // pembulatan 100 rupiah
     $sub = substr($angsuran, -2);
     if ($sub == 00) {
