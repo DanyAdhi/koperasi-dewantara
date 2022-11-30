@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Models\Loans;
 use JWTAuth;
@@ -15,9 +16,19 @@ class LoanController extends Controller {
     $ctx = $this->ctx."getTotalLoans.";
 
     $user_id = JWTAuth::user()->id;
-    $total = Loans::where('user_id', $user_id)
+
+    //Get pinjaman yang belum lunas dan angsuran yang belum lunas
+    $get_loans = Loans::select('user_id', 'is_paid_off', 'installment_amount', 'i.loan_id', DB::raw('count(i.id) as jumlah'))
+                  ->where('user_id', $user_id)
                   ->where('is_paid_off', false)
-                  ->sum('loan_amount');
+                  ->join('installments AS i', 'i.loan_id', '=', 'loans.id')
+                  ->where('i.is_paid', false)
+                  ->groupBy('i.loan_id')
+                  ->get();
+    $total = 0;
+    foreach ($get_loans as $value) {
+      $total += $value['installment_amount'] * $value['jumlah'];
+    }
     
     $data = ['total' => $total];
     return responseDataJson(true, "Total user loan", $data, 200); 

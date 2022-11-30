@@ -47,7 +47,7 @@ class UsersController extends Controller {
       'email'     => $requestData['email'],
       'address'   => $requestData['address'],
       'is_active' => $requestData['status'],
-      'password'  => Hash::make('password'),
+      'password'  => Hash::make($requestData['nip']),
     ]);
 
     return Redirect::to('users')->with('success', 'Berhasil menambahkan user baru');
