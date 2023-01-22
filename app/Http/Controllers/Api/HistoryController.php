@@ -19,6 +19,7 @@ class HistoryController extends Controller {
     try {
       $history = History::select('id', 'type_id', 'type', 'transaction_id', 'amount', 'created_at')
                     ->where('user_id', $user_id)
+                    ->whereIn('type', ['loan', 'installment'])
                     ->orderBy('id', 'DESC')
                     ->get();
     } catch(QueryException $e) {
