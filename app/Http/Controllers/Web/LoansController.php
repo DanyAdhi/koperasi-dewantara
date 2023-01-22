@@ -36,13 +36,11 @@ class LoansController extends Controller {
     $requestData = $request->all();
 
     $requestData['loan_amount'] = str_replace('.','', $requestData['loan_amount']);
-    $requestData['admin']       = str_replace('.','', $requestData['admin']);
     $validator = Validator::make($requestData,[
       'user_id'               => 'required|integer',
       'loan_amount'           => 'required|integer',
       'loan_interest'         => 'required|integer|min:0|max:100',
       'installment_times'     => 'required|integer|min:10|max:60',
-      'admin'                 => 'required|integer',
     ], $this->messages());
 
     if ($validator->fails()) {
@@ -50,14 +48,13 @@ class LoansController extends Controller {
     }
     
     // Insert data loan
-    $angsuran = $this->perhitunganAnsuran($requestData['loan_amount'], $requestData['admin'], $requestData['loan_interest'], $requestData['installment_times']);
+    $angsuran = $this->perhitunganAnsuran($requestData['loan_amount'], $requestData['loan_interest'], $requestData['installment_times']);
     $createLoan = Loans::create([
       'user_id'               => $requestData['user_id'],
       'loan_amount'           => $requestData['loan_amount'],
       'loan_interest'         => $requestData['loan_interest'],
       'installment_times'     => $requestData['installment_times'],
       'installment_amount'    => $angsuran,
-      'admin'                 => $requestData['admin'],
       'transaction_id'        => 0
     ]);
 
@@ -107,13 +104,13 @@ class LoansController extends Controller {
     return view('loan.show', $data);
   }
 
-  private function perhitunganAnsuran($jumlah, $biaya_admin, $bunga, $kali_angsuran) {
-    $data = [$jumlah, $biaya_admin, $bunga, $kali_angsuran];
+  private function perhitunganAnsuran($jumlah, $bunga, $kali_angsuran) {
+    $data = [$jumlah, $bunga, $kali_angsuran];
    
     // perhitungan bunga
     $jumlah_bunga = ($jumlah / 100) * $bunga;
 
-    $angsuran = ($jumlah + $jumlah_bunga + $biaya_admin) / $kali_angsuran;    
+    $angsuran = ($jumlah + $jumlah_bunga) / $kali_angsuran;    
 
     // pembulatan 100 rupiah
     $sub = substr($angsuran, -2);
@@ -143,8 +140,6 @@ class LoansController extends Controller {
       'installment_times.integer'     => 'Input kali angsuran tidak valid.',
       'installment_times.min'         => 'Kali angsuran minmal 10 bulan.',
       'installment_times.max'         => 'Kali angsuran maksimal 60 bulan.',
-      'admin.required'                => 'Biaya admin tidak boleh kosong.',
-      'admin.integer'                 => 'Input biaya admin tidak valid.',
     ];
   }
 

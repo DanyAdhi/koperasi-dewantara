@@ -21,7 +21,6 @@ class CreateLoansTable extends Migration
             $table->decimal('loan_interest', 9, 0); //bunga pinjaman
             $table->integer('installment_times'); //kali angsuran
             $table->decimal('installment_amount', 9, 0); //jumlah angsuran
-            $table->decimal('admin', 9, 0); //biaya admin
             $table->boolean('is_paid_off')->default(false);
             $table->timestamps();
         });

@@ -57,15 +57,6 @@
               <span class="text-danger">{{ $errors->first('loan_interest') }}</span>                  
             @enderror
           </div>
-          <div class="mb-3">
-            <label class="form-label" >Biaya Admin</label>
-            <div class="input-group input-group-merge">
-              <input type="text" class="form-control" placeholder="2.000" name='admin' value="{{ old('admin') }}" id="rupiahAdmin"/>
-            </div>
-            @error('admin')
-              <span class="text-danger">{{ $errors->first('admin') }}</span>                  
-            @enderror
-          </div>
           <a href="{{url('loans')}}" class="btn btn-secondary mt-5" style="text-transform: none !important">Back</a>
           <button type="submit" class="btn btn-primary mt-5">Save</button>
         </form>
@@ -81,7 +72,6 @@
   <script>
       $(document).ready(function(){
         $('#rupiahPinjaman').autoNumeric('init', {aSep: '.', aDec: ',', mDec: '0'});
-        $('#rupiahAdmin').autoNumeric('init', {aSep: '.', aDec: ',', mDec: '0'});
       });
   </script>
 @endsection

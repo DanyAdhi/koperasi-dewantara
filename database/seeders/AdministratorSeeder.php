@@ -10,7 +10,7 @@ class AdministratorSeeder extends Seeder
 {
     /**
      * Run the database seeds.
-     *
+     * php artisan db:seed --class=AdministratorSeeder
      * @return void
      */
     public function run()
