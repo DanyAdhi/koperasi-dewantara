@@ -17,7 +17,6 @@ class AuthController extends Controller {
     
     $validation = $this->validations($request->post(), 'login');
     if($validation->fails()){
-      logData($ctx."generateToken", 'disini', 500);
       $err = $this->convertMessages( $validation->errors()->toArray() );
       return responseJson(false, $err, 400);
     }

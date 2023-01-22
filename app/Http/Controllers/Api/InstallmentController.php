@@ -28,4 +28,19 @@ class InstallmentController extends Controller {
 
     return responseDataJson(true, "Data all installment", $installment, 200);
   }
+
+  public function getRemainingInstallment($loan_id) {
+    $ctx = $this->ctx."getRemainingInstallment.";
+
+    try {
+      $remainingInstallment = Installment::where('loan_id', $loan_id)
+                                          ->where('is_paid', 0)
+                                          ->count();
+    } catch(QueryException $e) {
+      logData($ctx."remainingInstallment", $e->getMessage(), 500);
+      return responseJson(false, "Internal server error", 500);
+    }
+    $data = ['remaining' => $remainingInstallment ];
+    return responseDataJson(true, "Data all installment", $data, 200);
+  }
 }

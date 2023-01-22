@@ -30,6 +30,7 @@ Route::group(['middleware' => ['jwt.verify']], function () {
 
   Route::prefix('installments')->group(function() {
     Route::get('/{id}', [InstallmentController::class, 'getAllInstallment']);
+    Route::get('/remaining/{id}', [InstallmentController::class, 'getRemainingInstallment']); //sisa kali angsurang
   });
 
   Route::prefix('histories')->group(function() {
