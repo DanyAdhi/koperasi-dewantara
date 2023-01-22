@@ -18,12 +18,12 @@ class LoanController extends Controller {
     $user_id = JWTAuth::user()->id;
 
     //Get pinjaman yang belum lunas dan angsuran yang belum lunas
-    $get_loans = Loans::select('user_id', 'is_paid_off', 'installment_amount', 'i.loan_id', DB::raw('count(i.id) as jumlah'))
+    $get_loans = Loans::select('user_id', 'is_paid_off', 'installment_amount', 'installments.loan_id', DB::raw('count(installments.id) as jumlah'))
                   ->where('user_id', $user_id)
                   ->where('is_paid_off', false)
-                  ->join('installments AS i', 'i.loan_id', '=', 'loans.id')
-                  ->where('i.is_paid', false)
-                  ->groupBy('i.loan_id')
+                  ->join('installments', 'installments.loan_id', '=', 'loans.id')
+                  ->where('installments.is_paid', false)
+                  ->groupBy('installments.loan_id')
                   ->get();
     $total = 0;
     foreach ($get_loans as $value) {
