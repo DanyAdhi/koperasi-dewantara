@@ -6,6 +6,7 @@ use App\Http\Controllers\Web\DashboardController;
 use App\Http\Controllers\Web\UsersController;
 use App\Http\Controllers\Web\LoansController;
 use App\Http\Controllers\Web\InstallmentController;
+use App\Http\Controllers\Web\SavingController;
 
 
 Route::get('/', [AuthController::class, 'index']);
@@ -43,6 +44,12 @@ Route::group(['middleware' => ['auth']], function() {
 
   Route::prefix('installments')->group(function() {
     Route::put('/update-status/{id}', [InstallmentController::class, 'update_status']);
+  });
+
+  Route::prefix('savings')->group(function() {
+    Route::get('/', [SavingController::class, 'index']);
+    Route::get('/create', [SavingController::class, 'create']);
+    Route::post('/', [SavingController::class, 'store']);
   });
 
 });

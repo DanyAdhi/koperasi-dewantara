@@ -130,7 +130,7 @@ class LoansController extends Controller {
     return [
       'user_id.required'              => 'User tidak boleh kosong.',
       'user_id.integer'               => 'Input user tidak valid.',
-      'loan_amount.required'          => 'Julah pinjaman tidak boleh kosong.',
+      'loan_amount.required'          => 'Jumlah pinjaman tidak boleh kosong.',
       'loan_amount.integer'           => 'Input jumlah pinjaman tidak valid.',
       'loan_interest.required'        => 'Bunga tidak boleh kosong.',
       'loan_interest.integer'         => 'Input bunga tidak valid.',
