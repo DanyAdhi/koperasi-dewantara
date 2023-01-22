@@ -39,6 +39,12 @@
         <div data-i18n="Analytics">Pinjaman</div>
       </a>
     </li>
+    <li class="menu-item {{($url=='savings') ? 'active' : ''}}">
+      <a href="{{url('/savings')}}" class="menu-link">
+        <i class="menu-icon tf-icons bx bxs-wallet-alt"></i>
+        <div data-i18n="Analytics">Tabungan</div>
+      </a>
+    </li>
 
   </ul>
 </aside>
