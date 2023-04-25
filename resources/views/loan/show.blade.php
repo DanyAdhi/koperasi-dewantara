@@ -64,8 +64,8 @@
             <div class="col-lg-9 col-md-8">{{$loan->installment_times}} Bulan</div>
           </div>
           <div class="row">
-            <div class="col-lg-3 col-md-4 label ">Bunga</div>
-            <div class="col-lg-9 col-md-8"> {{ $loan->loan_interest }} %</div>
+            <div class="col-lg-3 col-md-4 label ">Biaya Jasa</div>
+            <div class="col-lg-9 col-md-8"> @currency($loan->service_fee)</div>
           </div>
           <div class="row">
             <div class="col-lg-3 col-md-4 label ">Jumlah Angsuran</div>

@@ -22,6 +22,7 @@ class LoansController extends Controller {
     $loans = DB::table('loans')
                 ->select('loans.id', 'loans.loan_amount', 'loans.is_paid_off', 'users.nip', 'users.name')
                 ->leftJoin('users', 'users.id', '=', 'loans.user_id')
+                ->orderBy('id', 'DESC')
                 ->get();
     return view('loan.index', ['loans' => $loans]);
   }
@@ -36,10 +37,11 @@ class LoansController extends Controller {
     $requestData = $request->all();
 
     $requestData['loan_amount'] = str_replace('.','', $requestData['loan_amount']);
+    $requestData['service_fee'] = str_replace('.','', $requestData['service_fee']);
     $validator = Validator::make($requestData,[
       'user_id'               => 'required|integer',
       'loan_amount'           => 'required|integer',
-      'loan_interest'         => 'required|integer|min:0|max:100',
+      'service_fee'           => 'required|integer',
       'installment_times'     => 'required|integer|min:10|max:60',
     ], $this->messages());
 
@@ -48,11 +50,11 @@ class LoansController extends Controller {
     }
     
     // Insert data loan
-    $angsuran = $this->perhitunganAnsuran($requestData['loan_amount'], $requestData['loan_interest'], $requestData['installment_times']);
+    $angsuran = $this->perhitunganAnsuran($requestData['loan_amount'], $requestData['service_fee'], $requestData['installment_times']);
     $createLoan = Loans::create([
       'user_id'               => $requestData['user_id'],
       'loan_amount'           => $requestData['loan_amount'],
-      'loan_interest'         => $requestData['loan_interest'],
+      'service_fee'           => $requestData['service_fee'],
       'installment_times'     => $requestData['installment_times'],
       'installment_amount'    => $angsuran,
       'transaction_id'        => 0
@@ -104,13 +106,13 @@ class LoansController extends Controller {
     return view('loan.show', $data);
   }
 
-  private function perhitunganAnsuran($jumlah, $bunga, $kali_angsuran) {
+  private function perhitunganAnsuran($jumlah, $biaya_jasa, $kali_angsuran) {
     $data = [$jumlah, $bunga, $kali_angsuran];
    
     // perhitungan bunga
-    $jumlah_bunga = ($jumlah / 100) * $bunga;
+    $total_pinjaman = $jumlah + $biaya_jasa;
 
-    $angsuran = ($jumlah + $jumlah_bunga) / $kali_angsuran;    
+    $angsuran = $total_pinjaman / $kali_angsuran;    
 
     // pembulatan 100 rupiah
     $sub = substr($angsuran, -2);
@@ -132,10 +134,8 @@ class LoansController extends Controller {
       'user_id.integer'               => 'Input user tidak valid.',
       'loan_amount.required'          => 'Jumlah pinjaman tidak boleh kosong.',
       'loan_amount.integer'           => 'Input jumlah pinjaman tidak valid.',
-      'loan_interest.required'        => 'Bunga tidak boleh kosong.',
-      'loan_interest.integer'         => 'Input bunga tidak valid.',
-      'installment_times.min'         => 'Bunga pinjaman minmal 0 persen.',
-      'installment_times.max'         => 'Bunga pinjaman maksimal 100 persen.',
+      'service_fee.required'          => 'Biaya jasa tidak boleh kosong.',
+      'service_fee.integer'           => 'Input biaya jasa tidak valid.',
       'installment_times.required'    => 'Kali angsuran tidak boleh kosong.',
       'installment_times.integer'     => 'Input kali angsuran tidak valid.',
       'installment_times.min'         => 'Kali angsuran minmal 10 bulan.',
