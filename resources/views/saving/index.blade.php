@@ -25,7 +25,7 @@
             <th style="width: 10px">No</th>
             <th>NIP</th>
             <th>Nama</th>
-            <th>Jumlah Tabungan</th>
+            <th>Jumlah Setoran</th>
             <th>Kategori</th>
             <th>Tanggal</th>
           </tr>
