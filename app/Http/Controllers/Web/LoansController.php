@@ -107,7 +107,6 @@ class LoansController extends Controller {
   }
 
   private function perhitunganAnsuran($jumlah, $biaya_jasa, $kali_angsuran) {
-    $data = [$jumlah, $bunga, $kali_angsuran];
    
     // perhitungan bunga
     $total_pinjaman = $jumlah + $biaya_jasa;
