@@ -66,7 +66,7 @@ class LoanController extends Controller {
     $ctx = $this->ctx."getOneLoans.";
 
     try {
-      $loans = Loans::select('id', 'transaction_id', 'user_id', 'loan_amount', 'installment_times', 'installment_amount', 'is_paid_off', 'created_at')
+      $loans = Loans::select('id', 'transaction_id', 'user_id', 'loan_amount', 'service_fee', 'installment_times', 'installment_amount', 'is_paid_off', 'created_at')
                     ->where('id', $id)
                     ->first();
     } catch(QueryException $e) {
