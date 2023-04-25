@@ -4,9 +4,6 @@
   <span class="text-muted fw-light">Pinjaman / </span>  Create
 @endsection('breadcrumb')
 
-@php
-//  dd($users);
-@endphp
 
 @section('content')
 <div class="row">
@@ -49,12 +46,12 @@
             @enderror
           </div>
           <div class="mb-3">
-            <label class="form-label" >Bunga (%)</label>
+            <label class="form-label" >Biaya Jasa</label>
             <div class="input-group input-group-merge">
-              <input type="number" class="form-control" placeholder="0-100" name='loan_interest' value="{{ old('loan_interest') }}"/>
+              <input type="text" class="form-control" placeholder="50.000" name='service_fee' value="{{ old('service_fee') }}" id="rupiahBiayaJasa"/>
             </div>
-            @error('loan_interest')
-              <span class="text-danger">{{ $errors->first('loan_interest') }}</span>                  
+            @error('service_fee')
+              <span class="text-danger">{{ $errors->first('service_fee') }}</span>                  
             @enderror
           </div>
           <a href="{{url('loans')}}" class="btn btn-secondary mt-5" style="text-transform: none !important">Back</a>
@@ -72,6 +69,7 @@
   <script>
       $(document).ready(function(){
         $('#rupiahPinjaman').autoNumeric('init', {aSep: '.', aDec: ',', mDec: '0'});
+        $('#rupiahBiayaJasa').autoNumeric('init', {aSep: '.', aDec: ',', mDec: '0'});
       });
   </script>
 @endsection
