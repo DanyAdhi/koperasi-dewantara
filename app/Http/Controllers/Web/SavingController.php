@@ -84,9 +84,9 @@ class SavingController extends Controller {
     return [
       'user_id.required'              => 'User tidak boleh kosong.',
       'user_id.integer'               => 'Input user tidak valid.',
-      'savings_amount.required'       => 'Jumlah tabungan tidak boleh kosong.',
-      'savings_amount.integer'        => 'Input jumlah tabungan tidak valid.',
-      'savings_amount.gt'             => 'Jumlah tabungan harus lebih besari dari 0',
+      'savings_amount.required'       => 'Jumlah setoran tidak boleh kosong.',
+      'savings_amount.integer'        => 'Input jumlah setoran tidak valid.',
+      'savings_amount.gt'             => 'Jumlah setoran harus lebih besari dari 0',
       'category_id.required'          => 'Kategori tidak boleh kosong.',
       'category_id.integer'           => 'Input kategori tidak valid.',
     ];

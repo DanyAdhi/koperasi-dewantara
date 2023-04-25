@@ -28,7 +28,7 @@
             @enderror
           </div>
           <div class="mb-3">
-            <label class="form-label" >Jumlah Tabungan</label>
+            <label class="form-label" >Jumlah Setoran</label>
             <div class="input-group input-group-merge">
               <input type="text" class="form-control" placeholder="2.000.000" name='savings_amount' value="{{ old('savings_amount') }}" id="rupiahPinjaman" />
             </div>
